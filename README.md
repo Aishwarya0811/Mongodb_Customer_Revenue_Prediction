@@ -1,27 +1,43 @@
 # Mongodb_Customer_Revenue_Prediction
 Data Review
- GStoreData is imported with 804684 documents
 
+GStoreData is imported with 804684 documents
+ 
 MongoDB Queries/Code
 
-
 Query 1
+
 Question
+
 Which user had the minimum number of visits and when?
+
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
+
 Code:
+
 db.getCollection("project").aggregate(
+
     [
+    
         { 
+        
             "$group" : {
-                "_id" : "$fullVisitorID", 
+            
+                "_id" : "$fullVisitorID",
+                
                 "count" : {
+                
                     "$sum" : 1.0
+                    
                 }, 
                 "dateofvisit" : {
+                
                     "$push" : "$date"
+                    
                 }
+                
             }
+            
         }, 
         { 
             "$sort" : {
@@ -34,53 +50,84 @@ db.getCollection("project").aggregate(
             }
         }
     ]
-); 
+    
+    ); 
+
 Result:
+
 #403 results with date of visit count=1
+
 Translation
+
 1)	Group the data based on Visitor ID and date of visit and find the visitors with minimum number of visits and the when it was made.
+
 2)	Group the data based on fullVisitorId and dateofvisit columns. Count number of visit made by each visitor and date associated with visit. 
+
 3)	$group : {“$fullVisitorID”, “dateofvisit”} and then “$sort” : {“count”:1.0}  "$match" : {"count" : 1.0}
 
-Screen Shot of MongoDB Query/Code and Results
+
  
  
 Query 2
+
 Question 
+
 Which operating system (devices) was the most popular amongst store visitors with mobile devices?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
+
 Code:
 
 db.getCollection("project").aggregate(
+
     [
+    
         { 
+        
             "$match" : {
+            
                 "isMobile" : {
+                
                     "$in" : [
+                    
                         "true"
                     ]
+                    
                 }
+                
             }
-        }, 
+            
+        },
+        
         { 
+        
             "$group" : {
-                "_id" : "$operatingSystem", 
+            
+                "_id" : "$operatingSystem",
+                
                 "count" : {
+                
                     "$sum" : 1.0
+                    
                 }
+                
             }
         }, 
         { 
             "$sort" : {
                 "count" : -1.0
             }
-        }, 
+            
+        },
+        
         { 
             "$limit" : 1.0
+            
         }
+        
     ] 
-); 
+    
+    ); 
 
 Result:
 1 row returned with result. Android is most popular operating system.
@@ -106,33 +153,56 @@ Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result
 Code:
 
 db.getCollection("project").aggregate(
+
     [
+    
         { 
+        
             "$match" : {
+            
                 "socialEngagementType" : "Socially Engaged"
+                
             }
-        }, 
+            
+        },
+        
         { 
+        
             "$group" : {
-                "_id" : "$operatingSystem", 
+            
+                "_id" : "$operatingSystem",
+                
                 "count" : {
+                
                     "$sum" : 1.0
+                    
                 }
+                
             }
-        }, 
+            
+        },
+        
         { 
             "$sort" : {
+            
                 "count" : 1.0
+                
             }
         }, 
+        
         { 
             "$limit" : 1.0
+            
         }
-    ], 
+        
+    ],
+    
     { 
         "allowDiskUse" : false
+        
     }
-);
+    );
+    
 
 Note:
 
@@ -155,30 +225,55 @@ Provide a breakdown of unique visitors by mobile vs nonmobile users?
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
 Code:
 db.getCollection("project").aggregate(
+
     [
+    
         { 
+        
             "$match" : {
+            
                 "isMobile" : {
+                
                     "$in" : [
+                    
                         "true", 
+                        
                         "false"
+                        
                     ]
+                    
                 }
+                
             }
+            
         }, 
+        
         { 
             "$group" : {
-                "_id" : "$isMobile", 
+            
+                "_id" : "$isMobile",
+                
                 "totalRows" : {
+                
                     "$sum" : 1.0
+                    
                 }, 
+                
                 "totalCustomer" : {
+                
                     "$addToSet" : "$fullVisitorID"
+                    
                 }
+                
             }
+            
+       
         }
+        
     ], 
-   );
+    
+    );
+    
 
 Result: 
 #2 rows obtained
@@ -201,32 +296,57 @@ How many users used only iOS devices to visit the store?
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
 Code:
 db.getCollection("project").aggregate(
+
     [
+    
         { 
+        
             "$group" : {
+            
                 "_id" : "$fullVisitorID", 
+                
                 "aa" : {
+                
                     "$push" : "$operatingSystem"
+                    
                 }
+                
             }
-        }, 
+            
+        },
+        
         { 
+        
             "$match" : {
+            
                 "aa" : {
+                
                     "$nin" : [
+                    
                         "Windows", 
+                        
                         "Android", 
+                        
                         "Macintosh", 
+                        
                         "Linux", 
+                        
                         " Chrome OS ", 
+                        
                         "(not set)", 
+                        
                         "Tizen"
+                        
                     ]
                 }
+                
             }
+            
         }
+        
     ]
-);
+    
+    );
 
 Result: 
 #70 rows returned indicating 70 Visitors
@@ -244,31 +364,55 @@ Question
 Which user generated the least amount of hits and when?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
+
 Code: 
+
 db.getCollection("project").aggregate(
+
     [
+    
         { 
+        
             "$group" : {
-                "_id" : "$fullVisitorID", 
+            
+                "_id" : "$fullVisitorID",
+                
                 "countofhits" : {
+                
                     "$sum" : "$hits"
+                    
                 }, 
+                
                 "date" : {
+                
                     "$push" : "$date"
+                    
                 }
+                
             }
-        }, 
+            
+        },
+        
         { 
             "$sort" : {
+            
                 "countofhits" : 1.0
+                
             }
-        }, 
+            
+        },
+        
         { 
             "$match" : {
+            
                 "countofhits" : 1.0
+                
             }
+            
         }
+        
     ]
+    
 );
 
 Result: 
@@ -290,34 +434,61 @@ Question
 Visitors from which country visited the store more than once?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
+
 Code:
+
 db.getCollection("project").aggregate(
+
     [
+    
         { 
+        
             "$match" : {
+            
                 "visitNumber" : {
+                
                     "$nin" : [
-                        "visitNumber", 
+                    
+                        "visitNumber",
+                        
                         1.0
+                        
                     ]
+                    
                 }
+                
             }
-        }, 
+            
+        },
+        
         { 
             "$group" : {
-                "_id" : "$fullVisitorID", 
+            
+                "_id" : "$fullVisitorID",
+                
                 "country_name" : {
+                
                     "$push" : "$country"
-                }, 
+                    
+                },
+                
                 "visit_count" : {
+                
                     "$push" : "$visitNumber"
+                    
                 }
+                
             }
+            
         }
-    ], 
+        
+    ],
+    
     { 
         "allowDiskUse" : false
+        
     }
+    
 );
 
 Result:
@@ -343,39 +514,62 @@ Question
 Which date had the least and most number of visitors?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
+
 Code:
+
 use local;
+
 db.getCollection("project").aggregate(
+
     [
+    
         { 
+        
             "$group" : {
+            
                 "_id" : "$date", 
+                
                 "count" : {
+                
                     "$sum" : 1.0
+                    
                 }
+                
             }
-        }, 
+            
+        },
+        
         { 
             "$sort" : {
+            
                 "count" : -1.0
+                
             }
-        }, 
+            
+        },
+        
         { 
             "$limit" : 1.0
         }
-    ], 
+    ],
+    
     { 
         "allowDiskUse" : false
+        
     }); 
 
 
 Result: 
-# MOST NO OF VISITORS - Date:20171212 Number of Visitors: 9324 
-# LEAST NO OF VISITORS - Date:20171231 Number of visitors: 1495
+
+MOST NO OF VISITORS - Date:20171212 Number of Visitors: 9324
+
+LEAST NO OF VISITORS - Date:20171231 Number of visitors: 1495
 
 Translation
 1)	Group the data by date of visit and count the number of visits on each day. Sort the data in ascending order to obtain least and descending order to obtain most number of visits. 
+
 2)	Group with id as date and count with sum:1. Sort with count :-1 for least and count:1 for most. Limit:1 to obtain first row. 
+
 3)	"$group" : { "_id" : "$date"}, “count”: {$sum:1}   "$sort" : {"count" : -1.0},"$sort" : {"count" : 1.0},  "$limit" : 1.0
 Screen Shot of MongoDB Query/Code and Results
  
