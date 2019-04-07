@@ -9,7 +9,7 @@ Query 1
 
 Question
 
-Which user had the minimum number of visits and when?
+## Which user had the minimum number of visits and when?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
 
@@ -72,7 +72,7 @@ Query 2
 
 Question 
 
-Which operating system (devices) was the most popular amongst store visitors with mobile devices?
+ ## Which operating system (devices) was the most popular amongst store visitors with mobile devices?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
 
@@ -147,7 +147,7 @@ Screen Shot of MongoDB Query/Code and Results
  Query 4
 Question 
 
-Users of which operating system were the least socially engaged?
+## Users of which operating system were the least socially engaged?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
 Code:
@@ -220,7 +220,7 @@ Screen Shot of MongoDB Query/Code and Results
  
 Query 5
 Question 
-Provide a breakdown of unique visitors by mobile vs nonmobile users?
+## Provide a breakdown of unique visitors by mobile vs nonmobile users?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
 Code:
@@ -291,7 +291,7 @@ Screen Shot of MongoDB Query/Code and Results
  
 Query 6
 Question
-How many users used only iOS devices to visit the store?
+## How many users used only iOS devices to visit the store?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
 Code:
@@ -361,7 +361,7 @@ Screen Shot of MongoDB Query/Code and Results
  
 Query 7
 Question
-Which user generated the least amount of hits and when?
+## Which user generated the least amount of hits and when?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
 
@@ -431,7 +431,7 @@ Screen Shot of MongoDB Query/Code and Results
 
 Query 8
 Question
-Visitors from which country visited the store more than once?
+## Visitors from which country visited the store more than once?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
 
@@ -511,7 +511,7 @@ Assumption: We are listing countries per visitor.
 
 Query 3
 Question 
-Which date had the least and most number of visitors?
+## Which date had the least and most number of visitors?
 
 Notes/Comments About MongoDB Query/Code and Results (Include # of Rows in Result)
 
